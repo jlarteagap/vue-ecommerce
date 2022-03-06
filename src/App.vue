@@ -32,7 +32,7 @@
             <router-link to="/log-in" class="button is-success"
               >Log in</router-link
             >
-            <router-link to="/cart" class="button is-light">Cart</router-link>
+            <router-link to="/cart" class="button is-light">Cart ({{cartTotalLength}})</router-link>
           </div>
         </div>
       </div>
@@ -50,7 +50,27 @@ export default {
   data () {
     return {
       showMobileMenu: false,
+      cart: {
+        items: []
+      }
     };
+  },
+  beforeCreate(){
+    this.$store.commit('initializeStore')
+  },
+  mounted(){
+    this.cart = this.$store.state.cart
+  },
+  computed: {
+    cartTotalLength() {
+      let totalLength = 0
+
+      for (let i = 0; i < this.cart.items.length; i++) {
+        totalLength += this.cart.items[i].quantity
+      }
+
+      return totalLength
+    }
   }
 };
 </script>
